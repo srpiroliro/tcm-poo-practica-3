@@ -18,7 +18,7 @@ public class MedicamentPindoles {
 	public String getNom() {return nom;}
 	
 	//OVERRIDES
-	public boolean equals(Object o) {
+	public boolean equals(Object o) { // esta be? problemes amb totalPindolesPreses(String nom)
 		MedicamentPindoles altreMedicament;
 		
 		if(o instanceof MedicamentPindoles) {
@@ -27,9 +27,13 @@ public class MedicamentPindoles {
 				return true;
 		}
 		return false;
+
+		// per totalPindolesPreses String
+		return this.getNom().equals(altre_nom)
+		
 	}
 	
 	public String toString() {
-		return "Nom del medicament " + nom + " amb " + quantesUnitatsQueden() + " píndoles de " + unitats;
+		return "Nom del medicament " + nom + " amb " + quantesUnitatsQueden() + " pindoles de " + unitats;
 	}
 }

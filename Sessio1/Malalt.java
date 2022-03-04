@@ -37,12 +37,37 @@ public class Malalt {
 		}
 		return null;
 	}
+
 	public int totalPindolesQueden() {
-		int n = 0;
+		int n=0;
 		for(int i=0; i<=num; i++) {
 			n += medicaments[i].quantesUnitatsQueden();
 		}
 		return n;
+	}
+	public int totalPindolesPreses(String nom) {
+		// el nom es unic? si no posar int n=0; .... n+=...
+		for(int i=0; i<=num; i++) {
+			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden();
+
+			// FALTA. equals esta be? si no esta be, aquesta es la solucio
+		}
+	}
+
+	public int maximPindoles(){
+		// localitzar el medicament del magatzem que té més píndoles a la caixa, en retorna quantes en té
+		int n=0;
+		for(int i=0; i<=num; i++) {
+			if(medicaments[i].quantesUnitatsQueden()>n) n=medicaments[i].quantesUnitatsQueden();
+		}
+		return n;
+	}
+
+	public String numMedicamentsPerQueden() {
+		int num_pild=new int[3];
+		int queden[]=new int[num]; int quants[]=new int[num]; // num?
+
+
 	}
 	
 	//PRIVATEs
