@@ -23,14 +23,13 @@ public class MedicamentPindoles {
 		
 		if(o instanceof MedicamentPindoles) {
 			altreMedicament = (MedicamentPindoles) o;
-			if(nom == altreMedicament.getNom())
-				return true;
+			return this.getNom() == altreMedicament.getNom();
 		}
 		return false;
-
-		// per totalPindolesPreses String
-		return this.getNom().equals(altre_nom)
 		
+	}
+	public boolean equals(String altre_nom) {
+		return this.getNom().equals(altre_nom);
 	}
 	
 	public String toString() {
