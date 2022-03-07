@@ -1,3 +1,7 @@
+
+
+// He canviat tots els "quin =< num" per "quin < num"
+
 package Sessio1;
 
 public class Malalt {
@@ -24,41 +28,24 @@ public class Malalt {
 		comprarMedicamentPindoles(nouMedicament);
 	}
 	
-	//GETs
-	public String getNom() {return nom;}
-	public int getNum() {return num;}
-	public int getIncrement() {return increment;}
-	public MedicamentPindoles getMedicamentPindoles(int quin) {
-		if(quin <= num) return medicaments[quin];
-		return null;
-	}
-	public MedicamentPindoles getMedicamentNoBuit() {
-		for(int i=0; i<=num; i++) {
-			if(medicaments[i].quantesUnitatsQueden()>0) return medicaments[i];
-		}
-		return null;
-	}
-
 	public int totalPindolesQueden() {
 		int n=0;
-		for(int i=0; i<=num; i++) {
+		for(int i=0; i<num; i++) {
 			n += medicaments[i].quantesUnitatsQueden();
 		}
 		return n;
 	}
 	public int totalPindolesPreses(String nom) {
-		// el nom es unic? si no posar int n=0; .... n+=...
-		for(int i=0; i<=num; i++) {
-			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden(); //MALAMENT, ha de sumar i retornar al final
-
-			// FALTA. equals esta be? si no esta be, aquesta es la solucio
+		for(int i=0; i<num; i++) {
+			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden();
 		}
 	}
 
 	public int maximPindoles(){
 		int n=0;
-		for(int i=0; i<=num; i++) {
-			if(medicaments[i].quantesUnitatsQueden()>n) n=medicaments[i].quantesUnitatsQueden();
+		for(int i=0; i<num; i++) {
+			if(medicaments[i].quantesUnitatsQueden()>n) 
+				n=medicaments[i].quantesUnitatsQueden();
 		}
 		return n;
 	}
@@ -67,15 +54,54 @@ public class Malalt {
 		int queden[]=new int[num]; int quants[]=new int[num];
 		int quantes=0; // posicions plenes a queden[]
 
-		for(int i=0; i<=num; i++) {
-			int x=troba(medicaments[i], queden, quantes); 
-			if (x>0) quants[x]++;
+		for(int i=0; i<num; i++) {
+			int x=troba(medicaments[i], queden, quantes); int posicio=x;
+			
+			if(x==-1){
+				quants[i]=medicaments[i].quantesUnitatsQueden(); 
+				posicio=i; quantes++;
+			}
+			quants[posicio]++
+		}
+	}
+
+	public int eliminarMedicamentPindoles() {
+		int quants=0;
+		for(int i=0; i<num; i++) {
+			if(medicaments[i].quantesUnitatsQueden()==0){
+				medicaments[i]=null;
 			} else {
-				quants[i]=medicaments[i].quantesUnitatsQueden(); quants[i]++;
+				medicaments[quants]=medicaments[i]; quants++;
 			}
 		}
 	}
+
+	public int MedicamentPindoles[] donaMedicamentsBuits() {
+		
+	}
+
+
+
+
+	//GETs
+	public String getNom() {return nom;}
+	public int getNum() {return num;}
+	public int getIncrement() {return increment;}
+	public MedicamentPindoles getMedicamentPindoles(int quin) {
+		if(quin < num) return medicaments[quin];
+		return null;
+	}
+	public MedicamentPindoles getMedicamentNoBuit() {
+		for(int i=0; i<num; i++) {
+			if(medicaments[i].quantesUnitatsQueden()>0) return medicaments[i];
+		}
+		return null;
+	}
+
 	
+
+
+
 	//PRIVATEs
 	private void ampliar() {
 		MedicamentPindoles[] nousMedicaments = new MedicamentPindoles[medicaments.length + increment];

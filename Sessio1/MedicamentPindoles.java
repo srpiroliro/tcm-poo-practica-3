@@ -18,16 +18,17 @@ public class MedicamentPindoles {
 	public String getNom() {return nom;}
 	
 	//OVERRIDES
-	public boolean equals(Object o) { // esta be? problemes amb totalPindolesPreses(String nom)
+	public boolean equals(Object o) { // cal aquesta? potser amb equals(String nom) ja es suficient
 		MedicamentPindoles altreMedicament;
 		
 		if(o instanceof MedicamentPindoles) {
 			altreMedicament = (MedicamentPindoles) o;
-			return this.getNom() == altreMedicament.getNom();
+			return  this.getNom().equals(altreMedicament.getNom());
 		}
 		return false;
 		
 	}
+
 	public boolean equals(String altre_nom) {
 		return this.getNom().equals(altre_nom);
 	}
