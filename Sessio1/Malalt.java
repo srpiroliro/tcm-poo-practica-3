@@ -49,7 +49,7 @@ public class Malalt {
 	public int totalPindolesPreses(String nom) {
 		// el nom es unic? si no posar int n=0; .... n+=...
 		for(int i=0; i<=num; i++) {
-			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden();
+			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden(); //MALAMENT, ha de sumar i retornar al final
 
 			// FALTA. equals esta be? si no esta be, aquesta es la solucio
 		}
