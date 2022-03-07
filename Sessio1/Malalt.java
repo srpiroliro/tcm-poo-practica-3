@@ -13,9 +13,10 @@ public class Malalt {
 	}
 
 	public void comprarMedicamentPindoles(MedicamentPindoles p) { //crec que es podria millorar
-		if(num==medicaments.length) ampliar();
-		num++;
-		medicaments[num] = p;
+		if(num==medicaments.length) 
+			ampliar();
+		num++; medicaments[num] = p;
+
 		ordenar();
 	}
 	public void comprarMedicamentPindoles(String p, int pindoles) {
@@ -55,7 +56,6 @@ public class Malalt {
 	}
 
 	public int maximPindoles(){
-		// localitzar el medicament del magatzem que té més píndoles a la caixa, en retorna quantes en té
 		int n=0;
 		for(int i=0; i<=num; i++) {
 			if(medicaments[i].quantesUnitatsQueden()>n) n=medicaments[i].quantesUnitatsQueden();
@@ -64,10 +64,16 @@ public class Malalt {
 	}
 
 	public String numMedicamentsPerQueden() {
-		int num_pild=new int[3];
-		int queden[]=new int[num]; int quants[]=new int[num]; // num?
+		int queden[]=new int[num]; int quants[]=new int[num];
+		int quantes=0; // posicions plenes a queden[]
 
-
+		for(int i=0; i<=num; i++) {
+			int x=troba(medicaments[i], queden, quantes); 
+			if (x>0) quants[x]++;
+			} else {
+				quants[i]=medicaments[i].quantesUnitatsQueden(); quants[i]++;
+			}
+		}
 	}
 	
 	//PRIVATEs
@@ -77,9 +83,28 @@ public class Malalt {
 		for(int i = 0; i<this.medicaments.length; i++) {
 			nousMedicaments[i] = medicaments[i];
 		}
+		
 		medicaments = nousMedicaments;
 	}
 	private void ordenar() { //falta fer
 		
+	}
+
+
+	private static int troba(MedicamentPindoles caixa, int[] queden, int quants) {
+		int quantitat=caixa.quantesUnitatsQueden();
+		for(int i=0; i<quants; i++) {
+			if (queden[i]==quantitat)
+				return i;
+		}
+		return -1;
+	}
+
+	private static String crear(int[] queden, int[] quants, int quantes) {
+		String msg="";
+		for(int i=0; i<quantes; i++) 
+			msg+="Amb "+queden[i]+" píndoles queden "+quants[i]+" medicaments - ";
+
+		return msg;
 	}
 }
