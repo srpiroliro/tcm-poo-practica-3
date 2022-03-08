@@ -77,9 +77,32 @@ public class Malalt {
 	}
 
 	public int MedicamentPindoles[] donaMedicamentsBuits() {
-		
+		// podria ser mes eficient?
+
+		MedicamentPindoles[] buits_tmp=new MedicamentPindoles[num]; int cnt=0;
+		for (MedicamentPindoles i : magatzem){
+			if (i==null) continue; // legal? si no ho es, negar el if i que envolti tot.
+			if (i.quantesUnitatsQueden()==0){
+				buits_tmp[cnt]=i; cnt++;
+			}
+		}
+
+		MedicamentPindoles[] buits_final=new MedicamentPindoles[cnt];
+		for (int x=0;x<cnt;x++) buits[x]=buits_tmp[x];	
+		return buits;
 	}
 
+
+
+	public String toString() {
+		msg="";
+		for (int x=0;x<cnt;x++)
+			msg+=(cnt+1)+". "+medicaments[i].toString()+"\n";
+
+		return msg;
+	}
+
+	public boolean equals()}{}
 
 
 
@@ -98,21 +121,16 @@ public class Malalt {
 		return null;
 	}
 
-	
 
 
 
 	//PRIVATEs
 	private void ampliar() {
 		MedicamentPindoles[] nousMedicaments = new MedicamentPindoles[medicaments.length + increment];
-		
-		for(int i = 0; i<this.medicaments.length; i++) {
-			nousMedicaments[i] = medicaments[i];
-		}
-		
+		for(int i = 0; i<this.medicaments.length; i++) nousMedicaments[i] = medicaments[i];
 		medicaments = nousMedicaments;
 	}
-	private void ordenar() { //falta fer
+	private void ordenar() { // falta fer
 		
 	}
 

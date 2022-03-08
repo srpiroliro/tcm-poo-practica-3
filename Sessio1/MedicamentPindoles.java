@@ -6,9 +6,8 @@ public class MedicamentPindoles {
 	private int preses = 0;
 	
 	public MedicamentPindoles(String nom, int unitats){
-		this.nom = nom.substring(0,1).toUpperCase() + nom.substring(1).toLowerCase();
+		this.nom = nom.substring(0,1).toUpperCase()+nom.substring(1).toLowerCase();
 		this.unitats = unitats;
-		
 	}
 	
 	//GETs
@@ -26,7 +25,6 @@ public class MedicamentPindoles {
 			return  this.getNom().equals(altreMedicament.getNom());
 		}
 		return false;
-		
 	}
 
 	public boolean equals(String altre_nom) {
