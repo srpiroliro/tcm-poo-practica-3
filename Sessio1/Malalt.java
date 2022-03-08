@@ -62,8 +62,8 @@ public class Malalt {
 			int x=troba(medicaments[i], queden, quantes); int posicio=x;
 			
 			if(x==-1){
-				quants[i]=medicaments[i].quantesUnitatsQueden(); 
-				posicio=i; quantes++;
+				quants[quantes]=medicaments[i].quantesUnitatsQueden(); 
+				posicio=quantes; quantes++;
 			}
 			quants[posicio]++;
 		}
@@ -153,7 +153,7 @@ public class Malalt {
 	private void ordenar() {
 		// nom (AA 1st), pindoles quan es compra(> 1st), pindoles presses (> 1st)
 		for(int x=1; x<medicaments.length; x++){
-
+			medicaments[i-1]
 		}
 	}
 
