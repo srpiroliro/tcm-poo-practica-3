@@ -142,8 +142,6 @@ public class Malalt {
 	}
 
 
-
-
 	//PRIVATEs
 	private void ampliar() {
 		MedicamentPindoles[] nousMedicaments = new MedicamentPindoles[medicaments.length + increment];
@@ -151,9 +149,24 @@ public class Malalt {
 		medicaments = nousMedicaments;
 	}
 	private void ordenar() {
-		// nom (AA 1st), pindoles quan es compra(> 1st), pindoles presses (> 1st)
-		for(int x=1; x<medicaments.length; x++){
-			medicaments[i-1]
+		MedicamentPindoles aux;
+		for(int x=1; x<num; x++){
+			for(int y=num-1; y>x; y--){
+				boolean comparacio=medicaments[y].getNom().compareTo(medicaments[y-1])
+				
+				aux=medicaments[y];
+				if (comparacio==0) { 
+					int pindolesPreses1=medicaments[y].getPindolesPreses();
+					int pindolesPreses2=medicaments[y-1].getPindolesPreses();
+
+					int pindolesMax1=pindolesPreses1+medicament[y].quantesUnitatsQueden(); 
+					int pindolesMax2=pindolesPreses2+medicament[y-1].quantesUnitatsQueden();
+				}
+
+				if (comparacio==-1 || (comparacio==0 && (pindolesMax1>pindolesMax || (pindolesMax1==pindolesMax2 && pindolesPreses1>pindolesPreses2)))){
+					medicaments[y]=medicaments[y-1]; medicaments[y-1]=aux;
+				}
+			}
 		}
 	}
 
