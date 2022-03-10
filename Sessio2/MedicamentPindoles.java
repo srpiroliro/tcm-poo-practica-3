@@ -10,13 +10,13 @@ public class MedicamentPindoles {
 		this.unitats = unitats;
 	}
 	
-	//GETs
+	// GETs
 	public int quantesUnitatsQueden() {return unitats-preses;}	
 	public void prendrePindola() {if(preses < unitats) preses++;}
 	public int getPindolesPreses() {return preses;}
 	public String getNom() {return nom;}
 	
-	//OVERRIDES
+	// OVERWRITEs
 	public boolean equals(Object o) { // cal aquesta? potser amb equals(String nom) ja es suficient
 		MedicamentPindoles altreMedicament;
 		

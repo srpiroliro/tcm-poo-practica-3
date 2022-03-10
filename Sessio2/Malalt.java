@@ -108,12 +108,21 @@ public class Malalt {
 		return buits;
 	}
 
-	public void llistatOrdenatAscendet() {
-		
+	public void llistatOrdenatAscendent() {
+		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
+		copiar(medicaments, aOrdenar, num);
+		Bombolla(aOrdenar);
+		for (MedicamentPindoles i: aOrdenar) {
+			System.out.println(i.toString());
+		}
 	}
 
 	public void llistatOrdenatDescendent() {
-		
+		// s'ha de fer us del metode sort, pero el problema esta en que quan fas el sort fa crida al metode compareTo 
+		// i aquest espera dos strings per poder comprovar la lexicografia d'aquests dos strings
+		// i nosaltres el que estariem enviant son dos objectes.
+		// Possibla solucio: fer un overwrite del metode compareTo pq el que esperi siguin dos objectes i compari el
+		// nombre de pindoles que els hi queden en comptes de la lexicografia de dos strings. 
 	}
 
 	// OVERWRITEs
@@ -163,19 +172,24 @@ public class Malalt {
 	private void ordenar() {
 		// nom (AA 1st), pindoles quan es compra(> 1st), pindoles presses (> 1st)
 		for(int x=1; x<medicaments.length; x++){
-			medicaments[i-1]
+			continue;
 		}
 	}
-	private void Bombolla() {
+	private void Bombolla(MedicamentPindoles[] aOrdenar) {
 		MedicamentPindoles aux;
 		for(int i=0; i<=num-1; i++) {
 			for(int j=num-1; j>=i; j--) {
-				if(medicaments[j].quantesUnitatsQueden() < medicaments[j-1].quantesUnitatsQueden()) {
-					aux = medicaments[j];
-					medicaments[j] = medicaments[j-1];
-					medicaments[j-1] = aux;
+				if(aOrdenar[j].quantesUnitatsQueden() < aOrdenar[j-1].quantesUnitatsQueden()) {
+					aux = aOrdenar[j];
+					aOrdenar[j] = aOrdenar[j-1];
+					aOrdenar[j-1] = aux;
 				}
 			}
+		}
+	}
+	private void copiar(MedicamentPindoles[] origen, MedicamentPindoles[] desti, int n) {
+		for (int i=0; i<=num; i++) {
+			desti[i] = origen[i];
 		}
 	}
 
