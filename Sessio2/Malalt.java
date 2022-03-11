@@ -111,18 +111,19 @@ public class Malalt {
 	public void llistatOrdenatAscendent() {
 		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
 		copiar(medicaments, aOrdenar, num);
-		Bombolla(aOrdenar);
+		Bombolla(aOrdenar, num);
 		for (MedicamentPindoles i: aOrdenar) {
 			System.out.println(i.toString());
 		}
 	}
 
 	public void llistatOrdenatDescendent() {
-		// s'ha de fer us del metode sort, pero el problema esta en que quan fas el sort fa crida al metode compareTo 
-		// i aquest espera dos strings per poder comprovar la lexicografia d'aquests dos strings
-		// i nosaltres el que estariem enviant son dos objectes.
-		// Possibla solucio: fer un overwrite del metode compareTo pq el que esperi siguin dos objectes i compari el
-		// nombre de pindoles que els hi queden en comptes de la lexicografia de dos strings. 
+		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
+		copiar(medicaments, aOrdenar, num);
+		Arrays.sort(aOrdenar);
+		for (MedicamentPindoles i: aOrdenar) {
+			System.out.println(i.toString());
+		}
 	}
 
 	// OVERWRITEs
@@ -145,6 +146,17 @@ public class Malalt {
 
 
 		return strMalaltA.equals(strMalaltB);
+	}
+	public int compareTo(Object o) {
+		Malalt altreMalalt;
+		
+		if(o instanceof Malalt) {
+			altreMalalt = (Malalt) o;
+			if(this.totalPindolesQueden()<altreMalalt.totalPindolesQueden()) return -1;
+			else if(this.totalPindolesQueden()==altreMalalt.totalPindolesQueden()) return 0;
+			else return 1;
+		}
+		return -2;
 	}
 
 
@@ -175,10 +187,10 @@ public class Malalt {
 			continue;
 		}
 	}
-	private void Bombolla(MedicamentPindoles[] aOrdenar) {
+	private void Bombolla(MedicamentPindoles[] aOrdenar, int n) {
 		MedicamentPindoles aux;
-		for(int i=0; i<=num-1; i++) {
-			for(int j=num-1; j>=i; j--) {
+		for(int i=0; i<n-1; i++) {
+			for(int j=n-1; j>=i; j--) {
 				if(aOrdenar[j].quantesUnitatsQueden() < aOrdenar[j-1].quantesUnitatsQueden()) {
 					aux = aOrdenar[j];
 					aOrdenar[j] = aOrdenar[j-1];
@@ -188,7 +200,7 @@ public class Malalt {
 		}
 	}
 	private void copiar(MedicamentPindoles[] origen, MedicamentPindoles[] desti, int n) {
-		for (int i=0; i<=num; i++) {
+		for (int i=0; i<n; i++) {
 			desti[i] = origen[i];
 		}
 	}

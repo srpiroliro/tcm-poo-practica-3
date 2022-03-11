@@ -32,4 +32,15 @@ public class MedicamentPindoles {
 	public String toString() {
 		return "Nom del medicament " + nom + " amb " + quantesUnitatsQueden() + " pindoles de " + unitats;
 	}
+	public int compareTo(Object o) {
+		MedicamentPindoles altreMedicament;
+		
+		if(o instanceof MedicamentPindoles) {
+			altreMedicament = (MedicamentPindoles) o;
+			if(this.quantesUnitatsQueden()<altreMedicament.quantesUnitatsQueden()) return -1;
+			else if(this.quantesUnitatsQueden()==altreMedicament.quantesUnitatsQueden()) return 0;
+			else return 1;
+		}
+		return -2;
+	}
 }
