@@ -3,7 +3,7 @@ package Sessio1;
 public class MedicamentPindoles {
 	private final String nom;
 	private final int unitats;
-	private int preses = 0;
+	private int preses=0;
 	
 	public MedicamentPindoles(String nom, int unitats){
 		this.nom = nom.substring(0,1).toUpperCase()+nom.substring(1).toLowerCase();
@@ -17,7 +17,7 @@ public class MedicamentPindoles {
 	public String getNom() {return nom;}
 	
 	//OVERRIDES
-	public boolean equals(Object o) { // cal aquesta? potser amb equals(String nom) ja es suficient
+	public boolean equals(Object o) {
 		MedicamentPindoles altreMedicament;
 		
 		if(o instanceof MedicamentPindoles) {
@@ -26,11 +26,9 @@ public class MedicamentPindoles {
 		}
 		return false;
 	}
-
 	public boolean equals(String altre_nom) {
 		return this.getNom().equals(altre_nom);
 	}
-	
 	public String toString() {
 		return "Nom del medicament " + nom + " amb " + quantesUnitatsQueden() + " pindoles de " + unitats;
 	}

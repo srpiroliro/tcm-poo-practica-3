@@ -1,7 +1,3 @@
-
-
-// He canviat tots els "quin =< num" per "quin < num"
-
 package Sessio1;
 
 import java.util.Arrays;
@@ -9,19 +5,22 @@ import java.util.Arrays;
 public class Malalt {
 	private String nom;
 	private MedicamentPindoles[] medicaments;
-	private int num;
+	private int num; // num. de medicaments
 	private final int increment;
 	
+
+	// CONSTRUCTORs
 	public Malalt(String nom, int numMax, int increment) {
 		this.nom = nom;
 		medicaments = new MedicamentPindoles[numMax];
 		this.increment = increment;
 	}
 
-	public void comprarMedicamentPindoles(MedicamentPindoles p) { //crec que es podria millorar
+
+	public void comprarMedicamentPindoles(MedicamentPindoles p) {
 		if(num==medicaments.length) 
 			ampliar();
-		num++; medicaments[num] = p;
+		medicaments[num]=p; num++; 
 
 		ordenar();
 	}
@@ -29,6 +28,7 @@ public class Malalt {
 		MedicamentPindoles nouMedicament = new MedicamentPindoles(p, pindoles);
 		comprarMedicamentPindoles(nouMedicament);
 	}
+
 	
 	public int totalPindolesQueden() {
 		int n=0;
@@ -44,6 +44,7 @@ public class Malalt {
 		}
 		return 0;
 	}
+
 
 	public int maximPindoles(){
 		int n=0;
@@ -61,13 +62,12 @@ public class Malalt {
 		for(int i=0; i<num; i++) {
 			int x=troba(medicaments[i], queden, quantes); int posicio=x;
 			
-			if(x==-1){
-				quants[quantes]=medicaments[i].quantesUnitatsQueden(); 
+			if(x==-1 || quantes==0){
+				queden[quantes]=medicaments[i].quantesUnitatsQueden(); 
 				posicio=quantes; quantes++;
 			}
 			quants[posicio]++;
-		}
-		
+		}		
 		return crear(queden,quants,quantes);
 	}
 
@@ -85,11 +85,9 @@ public class Malalt {
 	}
 
 	public MedicamentPindoles[] donaMedicamentsBuits() {
-		// podria ser mes eficient?
-
 		MedicamentPindoles[] buits_tmp=new MedicamentPindoles[num]; int cnt=0;
 		for (MedicamentPindoles i : medicaments){
-			if (i==null) continue; // legal? si no ho es, negar el if i que envolti tot.
+			if (i==null) continue; // legal? si no ho es, negar el if i que ho envolti tot.
 			if (i.quantesUnitatsQueden()==0){
 				buits_tmp[cnt]=i; cnt++;
 			}
@@ -121,7 +119,6 @@ public class Malalt {
 		String strMalaltA=Arrays.toString(llista_strMalaltA); 
 		String strMalaltB=Arrays.toString(llista_strMalaltB);
 
-
 		return strMalaltA.equals(strMalaltB);
 	}
 
@@ -152,31 +149,30 @@ public class Malalt {
 		MedicamentPindoles aux;
 		for(int x=1; x<num; x++){
 			for(int y=num-1; y>x; y--){
-				boolean comparacio=medicaments[y].getNom().compareTo(medicaments[y-1])
+				int comparacio=medicaments[y].getNom().compareTo(medicaments[y-1].getNom());
 				
 				aux=medicaments[y];
+				int pindolesPreses1=0; int pindolesPreses2=0;
+				int pindolesMax1=0; int pindolesMax2=0;
 				if (comparacio==0) { 
-					int pindolesPreses1=medicaments[y].getPindolesPreses();
-					int pindolesPreses2=medicaments[y-1].getPindolesPreses();
+					pindolesPreses1=medicaments[y].getPindolesPreses();
+					pindolesPreses2=medicaments[y-1].getPindolesPreses();
 
-					int pindolesMax1=pindolesPreses1+medicament[y].quantesUnitatsQueden(); 
-					int pindolesMax2=pindolesPreses2+medicament[y-1].quantesUnitatsQueden();
+					pindolesMax1=pindolesPreses1+medicaments[y].quantesUnitatsQueden(); 
+					pindolesMax2=pindolesPreses2+medicaments[y-1].quantesUnitatsQueden();
 				}
 
-				if (comparacio==-1 || (comparacio==0 && (pindolesMax1>pindolesMax || (pindolesMax1==pindolesMax2 && pindolesPreses1>pindolesPreses2)))){
+				if (comparacio==-1 || (comparacio==0 && (pindolesMax1>pindolesMax2 || (pindolesMax1==pindolesMax2 && pindolesPreses1>pindolesPreses2)))){
 					medicaments[y]=medicaments[y-1]; medicaments[y-1]=aux;
 				}
 			}
 		}
 	}
 
-
-	// cal que siguin statics?
 	private static int troba(MedicamentPindoles caixa, int[] queden, int quants) {
 		int quantitat=caixa.quantesUnitatsQueden();
 		for(int i=0; i<quants; i++) {
-			if (queden[i]==quantitat)
-				return i;
+			if (queden[i]==quantitat) return i;
 		}
 		return -1;
 	}
