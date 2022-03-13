@@ -2,7 +2,8 @@ package Sessio2;
 
 import java.util.Arrays;
 
-public class Malalt {
+
+public class Malalt implements Comparable<Object> {
 	private String nom;
 	private MedicamentPindoles[] medicaments;
 	private int num;
@@ -10,9 +11,9 @@ public class Malalt {
 	
 	
 	public Malalt(String nom, int numMax, int increment) {
-		if(nom==null || nom=="") throw new IllegalArgumentException("Argument nom illegal!");
-		if(numMax<=0 ) throw new IllegalArgumentException("Argument numMax illegal! (ha de ser major a 0)");
-		if(increment<=0) throw new IllegalArgumentException("Argument increment illegal! (ha de ser major a 0)");
+		if(nom==null || nom=="") 	throw new IllegalArgumentException("Argument nom illegal!");
+		if(numMax<=0 ) 				throw new IllegalArgumentException("Argument numMax illegal! (ha de ser major a 0)");
+		if(increment<=0) 			throw new IllegalArgumentException("Argument increment illegal! (ha de ser major a 0)");
 			
 		
 		this.nom = nom;
@@ -21,14 +22,17 @@ public class Malalt {
 	}
 
 	public void comprarMedicamentPindoles(Object p) {
-		if (!(p instanceof MedicamentPindoles)) throw new IllegalArgumentException();
+		if (!(p instanceof MedicamentPindoles)) 
+			throw new IllegalArgumentException("Has de passar un objecte de MedicamentPindoles!");
 		
 		if(num==medicaments.length) ampliar();
-		num++; medicaments[num]=(MedicamentPindoles) p;
+		medicaments[num]=(MedicamentPindoles) p; num++; 
 
 		ordenar();
 	}
-	public void comprarMedicamentPindoles(String p, int pindoles) { // fer comprovacio aqui o a constructor MedicamentPindoles ?
+	public void comprarMedicamentPindoles(String p, int pindoles) { 
+		// La comprovacio ja es fa en el constructor, innecesari ferla 2 vegades.
+		
 		// if(p==null || p=="") throw new IllegalArgumentException("Argument nom de medicament illegal!");
 		// if(pindoles<=0 ) throw new IllegalArgumentException("Argument numMax illegal! (ha de ser major a 0)");
 		
@@ -42,15 +46,15 @@ public class Malalt {
 		
 		return n;
 	}
-
 	public int totalPindolesPreses(String nom) throws ExceptionMedicament {
-		if (nom==""||nom==null) throw new IllegalArgumentException("Nom incorrecte!");
+		if (nom==""||nom==null) 
+			throw new IllegalArgumentException("Nom incorrecte!");
 		
 		for(int i=0; i<num; i++) {
 			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden();
 		}
 
-		throw new ExceptionMedicament("No s'ha torbat medicament amb el nom \""+nom+"\" ");
+		throw new IllegalArgumentException("No s'ha torbat medicament amb el nom \""+nom+"\" ");
 	}
 
 	public int maximPindoles(){
@@ -63,31 +67,28 @@ public class Malalt {
 	}
 	
 	public MedicamentPindoles medicamentMenys(){
-		int n=maximPindoles();
-		for(int i=0; i<num; i++) {
-			if(medicaments[i].quantesUnitatsQueden()<medicaments[n].quantesUnitatsQueden())  n=i;
-			else if(medicaments[i].quantesUnitatsQueden()==medicaments[n].quantesUnitatsQueden()) {
-				if(medicaments[i].getNom().compareTo(medicaments[n].getNom())<0)
-					n=i;
-			}
+		int x=0;
+		for(int i=1; i<num; i++) {
+			int comp=medicaments[i].compareTo(medicaments[x]);
+			if(comp<0 || (comp==0 && medicaments[i].getNom().compareTo(medicaments[x].getNom())<0) ) 
+				x=i;
+			
 		}
-		return medicaments[n];
+		return medicaments[x];
 	}
 
 	public String numMedicamentsPerQueden() {
-		int queden[]=new int[num]; int quants[]=new int[num];
-		int quantes=0; // posicions plenes a queden[]
+		int queden[]=new int[num]; int quants[]=new int[num]; int quantes=0;
 
 		for(int i=0; i<num; i++) {
 			int x=troba(medicaments[i], queden, quantes); int posicio=x;
 			
-			if(x==-1){
-				quants[quantes]=medicaments[i].quantesUnitatsQueden(); 
+			if(x==-1 || quantes==0){
+				queden[quantes]=medicaments[i].quantesUnitatsQueden(); 
 				posicio=quantes; quantes++;
 			}
 			quants[posicio]++;
-		}
-		
+		}		
 		return crear(queden,quants,quantes);
 	}
 
@@ -121,31 +122,37 @@ public class Malalt {
 	public void llistatOrdenatAscendent() {
 		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
 		copiar(medicaments, aOrdenar, num);
-		Bombolla(aOrdenar, num);
-		for (MedicamentPindoles i: aOrdenar) {
-			System.out.println(i.toString());
-		}
+		
+		Bombolla(aOrdenar);
+		for (MedicamentPindoles i: aOrdenar) 
+			System.out.println(i);
+		
 	}
-
 	public void llistatOrdenatDescendent() {
 		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
 		copiar(medicaments, aOrdenar, num);
+		
 		Arrays.sort(aOrdenar);
-		for (MedicamentPindoles i: aOrdenar) {
-			System.out.println(i.toString());
-		}
+		reverse(aOrdenar);
+		
+		for (MedicamentPindoles i: aOrdenar) 
+			System.out.println(i);
+		
 	}
 
-	// OVERWRITEs
+	// OVERWRRIDEs
 	public String toString() {
 		String msg="";
-		for (int x=0;x<num;x++)
-			msg+=(x+1)+". "+medicaments[x].toString()+"\n";
+		
+		for (int x=0;x<num;x++) {
+			msg+=(x+1)+". "+medicaments[x]+"\n";
+		}
 
 		return msg;
 	}
 	public boolean equals(Object malaltB){
-		if (!(malaltB instanceof Malalt)) return false;
+		if (!(malaltB instanceof Malalt)) 
+			return false;
 
 		String[] llista_strMalaltA=numMedicamentsPerQueden().split("-");
 		String[] llista_strMalaltB=((Malalt)malaltB).numMedicamentsPerQueden().split("-");
@@ -167,16 +174,14 @@ public class Malalt {
 		
 		throw new ClassCastException("Tipus incorrecte!");
 	}
-
-
+	
 	//GETs
 	public String getNom() {return nom;}
 	public int getNum() {return num;}
 	public int getIncrement() {return increment;}
-	public MedicamentPindoles getMedicamentPindoles(int quin) throws ExceptionMedicament {
+	public MedicamentPindoles getMedicamentPindoles(int quin){
 		if(quin < num) return medicaments[quin];
-		
-		throw new ExceptionMedicament("No existeix medicament amb l'index "+quin);
+		throw new IllegalArgumentException("No existeix medicament amb l'index "+quin);
 	}
 	public MedicamentPindoles getMedicamentNoBuit() {
 		for(int i=0; i<num; i++) {
@@ -192,15 +197,34 @@ public class Malalt {
 		medicaments = nousMedicaments;
 	}
 	private void ordenar() {
-		for(int x=1; x<medicaments.length; x++){
-			continue;
+		MedicamentPindoles aux;
+		for(int x=0; x<num; x++){
+			for(int y=num-1; y>x; y--){
+				int comparacio=medicaments[y].getNom().compareTo(medicaments[y-1].getNom());
+				
+				aux=medicaments[y];
+				int pindolesPreses1=0; int pindolesPreses2=0;
+				int pindolesMax1=0; int pindolesMax2=0;
+				if (comparacio==0) { 
+					pindolesPreses1=medicaments[y].getPindolesPreses();
+					pindolesPreses2=medicaments[y-1].getPindolesPreses();
+
+					pindolesMax1=pindolesPreses1+medicaments[y].quantesUnitatsQueden(); 
+					pindolesMax2=pindolesPreses2+medicaments[y-1].quantesUnitatsQueden();
+				}
+
+				if (comparacio<0 || (comparacio==0 && (pindolesMax1>pindolesMax2 || (pindolesMax1==pindolesMax2 && pindolesPreses1>pindolesPreses2)))){
+					medicaments[y]=medicaments[y-1]; medicaments[y-1]=aux;
+				}
+			}
 		}
 	}
-	private void Bombolla(MedicamentPindoles[] aOrdenar, int n) {
-		MedicamentPindoles aux;
-		for(int i=0; i<n-1; i++) {
-			for(int j=n-1; j>=i; j--) {
-				if(aOrdenar[j].quantesUnitatsQueden() < aOrdenar[j-1].quantesUnitatsQueden()) {
+	private void Bombolla(Comparable<Object> aOrdenar[]) {
+		Comparable<Object> aux;
+		for(int i=1; i<num-1; i++) {
+			for(int j=num-1; j>=i; j--) {
+				if(aOrdenar[j].compareTo(aOrdenar[j-1]) < 0) {
+					
 					aux = aOrdenar[j];
 					aOrdenar[j] = aOrdenar[j-1];
 					aOrdenar[j-1] = aux;
@@ -213,14 +237,15 @@ public class Malalt {
 			desti[i] = origen[i];
 		}
 	}
-
-
-	// cal que siguin statics?
+	private Object reverse(Object[] taula) {
+		Object aux[] =new Object[taula.length];
+		for (int i=0; i<taula.length; i++) aux[i]=taula[(taula.length-1)-i];
+		return aux;
+	}
 	private static int troba(MedicamentPindoles caixa, int[] queden, int quants) {
 		int quantitat=caixa.quantesUnitatsQueden();
 		for(int i=0; i<quants; i++) {
-			if (queden[i]==quantitat)
-				return i;
+			if (queden[i]==quantitat) return i;
 		}
 		return -1;
 	}
@@ -231,4 +256,5 @@ public class Malalt {
 
 		return msg;
 	}
+
 }

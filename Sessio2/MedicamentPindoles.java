@@ -1,6 +1,6 @@
 package Sessio2;
 
-public class MedicamentPindoles {
+public class MedicamentPindoles implements Comparable<Object> {
 	private final String nom;
 	private final int unitats;
 	private int preses = 0;
@@ -17,20 +17,18 @@ public class MedicamentPindoles {
 	public int quantesUnitatsQueden() {return unitats-preses;}	
 	public void prendrePindola() throws ExceptionMedicament {
 		if(preses < unitats) preses++;
-		else throw new ExceptionMedicament("No queden més píndoles!");
+		else throw new ExceptionMedicament("No queden més píndoles!"); // falta try/catch
 	}
 	public int getPindolesPreses() {return preses;}
 	public String getNom() {return nom;}
 	
-	// OVERWRITEs
+	// OVERWRRIDES
 	public boolean equals(Object o) { // cal aquesta? potser amb equals(String nom) ja es suficient
-		MedicamentPindoles altreMedicament;
+		if(!(o instanceof MedicamentPindoles)) 
+			return false;
 		
-		if(o instanceof MedicamentPindoles) {
-			altreMedicament = (MedicamentPindoles) o;
-			return  this.getNom().equals(altreMedicament.getNom());
-		}
-		return false;
+		return this.getNom().equals(((MedicamentPindoles) o).getNom());
+		
 	}
 	public boolean equals(String altre_nom) {
 		return this.getNom().equals(altre_nom);
@@ -38,16 +36,10 @@ public class MedicamentPindoles {
 	public String toString() {
 		return "Nom del medicament " + nom + " amb " + quantesUnitatsQueden() + " pindoles de " + unitats;
 	}
-
-	
 	public int compareTo(Object o){
-		MedicamentPindoles altreMedicament;
+		if(!(o instanceof MedicamentPindoles)) 
+			throw new ClassCastException("Tipus incorrecte!");
 		
-		if(o instanceof MedicamentPindoles) {
-			altreMedicament = (MedicamentPindoles) o;
-			return this.quantesUnitatsQueden()-altreMedicament.quantesUnitatsQueden();
-		}
-		
-		throw new ClassCastException("Tipus incorrecte!");
+		return this.quantesUnitatsQueden()-((MedicamentPindoles) o).quantesUnitatsQueden();
 	}
 }
