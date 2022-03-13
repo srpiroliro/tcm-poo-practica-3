@@ -23,19 +23,14 @@ public class Malalt implements Comparable<Object> {
 
 	public void comprarMedicamentPindoles(Object p) {
 		if (!(p instanceof MedicamentPindoles)) 
-			throw new IllegalArgumentException("Has de passar un objecte de MedicamentPindoles!");
+			throw new IllegalArgumentException("Heu de passar un objecte de MedicamentPindoles!");
 		
 		if(num==medicaments.length) ampliar();
 		medicaments[num]=(MedicamentPindoles) p; num++; 
-
 		ordenar();
 	}
 	public void comprarMedicamentPindoles(String p, int pindoles) { 
 		// La comprovacio ja es fa en el constructor, innecesari ferla 2 vegades.
-		
-		// if(p==null || p=="") throw new IllegalArgumentException("Argument nom de medicament illegal!");
-		// if(pindoles<=0 ) throw new IllegalArgumentException("Argument numMax illegal! (ha de ser major a 0)");
-		
 		MedicamentPindoles nouMedicament = new MedicamentPindoles(p, pindoles);
 		comprarMedicamentPindoles(nouMedicament);
 	}
@@ -43,17 +38,15 @@ public class Malalt implements Comparable<Object> {
 	public int totalPindolesQueden() {
 		int n=0;
 		for(int i=0; i<num; i++) n+=medicaments[i].quantesUnitatsQueden();
-		
 		return n;
 	}
-	public int totalPindolesPreses(String nom) throws ExceptionMedicament {
+	public int totalPindolesPreses(String nom){
 		if (nom==""||nom==null) 
 			throw new IllegalArgumentException("Nom incorrecte!");
 		
 		for(int i=0; i<num; i++) {
 			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden();
 		}
-
 		throw new IllegalArgumentException("No s'ha torbat medicament amb el nom \""+nom+"\" ");
 	}
 
@@ -72,7 +65,6 @@ public class Malalt implements Comparable<Object> {
 			int comp=medicaments[i].compareTo(medicaments[x]);
 			if(comp<0 || (comp==0 && medicaments[i].getNom().compareTo(medicaments[x].getNom())<0) ) 
 				x=i;
-			
 		}
 		return medicaments[x];
 	}
@@ -101,7 +93,6 @@ public class Malalt implements Comparable<Object> {
 				medicaments[quants]=medicaments[i]; quants++;
 			}
 		}
-		
 		return eliminats;
 	}
 
@@ -124,9 +115,7 @@ public class Malalt implements Comparable<Object> {
 		copiar(medicaments, aOrdenar, num);
 		
 		Bombolla(aOrdenar);
-		for (MedicamentPindoles i: aOrdenar) 
-			System.out.println(i);
-		
+		for (MedicamentPindoles i: aOrdenar) System.out.println(i);
 	}
 	public void llistatOrdenatDescendent() {
 		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
@@ -135,19 +124,13 @@ public class Malalt implements Comparable<Object> {
 		Arrays.sort(aOrdenar);
 		reverse(aOrdenar);
 		
-		for (MedicamentPindoles i: aOrdenar) 
-			System.out.println(i);
-		
+		for (MedicamentPindoles i: aOrdenar) System.out.println(i);
 	}
 
 	// OVERWRRIDEs
 	public String toString() {
 		String msg="";
-		
-		for (int x=0;x<num;x++) {
-			msg+=(x+1)+". "+medicaments[x]+"\n";
-		}
-
+		for (int x=0;x<num;x++) msg+=(x+1)+". "+medicaments[x]+"\n";
 		return msg;
 	}
 	public boolean equals(Object malaltB){
@@ -165,14 +148,8 @@ public class Malalt implements Comparable<Object> {
 		return strMalaltA.equals(strMalaltB);
 	}
 	public int compareTo(Object o) {
-		Malalt altreMalalt;
-		
-		if(o instanceof Malalt) {
-			altreMalalt = (Malalt) o;
-			return this.totalPindolesQueden()-altreMalalt.totalPindolesQueden();
-		}
-		
-		throw new ClassCastException("Tipus incorrecte!");
+		if(!(o instanceof Malalt)) throw new ClassCastException("Tipus incorrecte!");
+		return this.totalPindolesQueden()-((Malalt) o).totalPindolesQueden();
 	}
 	
 	//GETs
@@ -187,7 +164,7 @@ public class Malalt implements Comparable<Object> {
 		for(int i=0; i<num; i++) {
 			if(medicaments[i].quantesUnitatsQueden()>0) return medicaments[i];
 		}
-		return null; // o fer un throw new ExceptionMedicament("No existeix cap medicament amb mes de 0 medicaments");
+		return null;
 	}
 
 	//PRIVATEs
