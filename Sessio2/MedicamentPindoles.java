@@ -6,13 +6,19 @@ public class MedicamentPindoles {
 	private int preses = 0;
 	
 	public MedicamentPindoles(String nom, int unitats){
+		if(nom==null || nom=="") throw new IllegalArgumentException("Argument nom illegal!");
+		if(unitats<=0) throw new IllegalArgumentException("Argument unitats illegal! (ha de ser major o igual a 0)");
+		
 		this.nom = nom.substring(0,1).toUpperCase()+nom.substring(1).toLowerCase();
 		this.unitats = unitats;
 	}
 	
 	// GETs
 	public int quantesUnitatsQueden() {return unitats-preses;}	
-	public void prendrePindola() {if(preses < unitats) preses++;}
+	public void prendrePindola() throws ExceptionMedicament {
+		if(preses < unitats) preses++;
+		else throw new ExceptionMedicament("No queden més píndoles!");
+	}
 	public int getPindolesPreses() {return preses;}
 	public String getNom() {return nom;}
 	
@@ -32,15 +38,16 @@ public class MedicamentPindoles {
 	public String toString() {
 		return "Nom del medicament " + nom + " amb " + quantesUnitatsQueden() + " pindoles de " + unitats;
 	}
-	public int compareTo(Object o) {
+
+	
+	public int compareTo(Object o){
 		MedicamentPindoles altreMedicament;
 		
 		if(o instanceof MedicamentPindoles) {
 			altreMedicament = (MedicamentPindoles) o;
-			if(this.quantesUnitatsQueden()<altreMedicament.quantesUnitatsQueden()) return -1;
-			else if(this.quantesUnitatsQueden()==altreMedicament.quantesUnitatsQueden()) return 0;
-			else return 1;
+			return this.quantesUnitatsQueden()-altreMedicament.quantesUnitatsQueden();
 		}
-		return -2;
+		
+		throw new ClassCastException("Tipus incorrecte!");
 	}
 }

@@ -7,37 +7,50 @@ public class Malalt {
 	private MedicamentPindoles[] medicaments;
 	private int num;
 	private final int increment;
+	
+	
 	public Malalt(String nom, int numMax, int increment) {
+		if(nom==null || nom=="") throw new IllegalArgumentException("Argument nom illegal!");
+		if(numMax<=0 ) throw new IllegalArgumentException("Argument numMax illegal! (ha de ser major a 0)");
+		if(increment<=0) throw new IllegalArgumentException("Argument increment illegal! (ha de ser major a 0)");
+			
+		
 		this.nom = nom;
 		medicaments = new MedicamentPindoles[numMax];
 		this.increment = increment;
 	}
 
-	public void comprarMedicamentPindoles(MedicamentPindoles p) { //crec que es podria millorar
-		if(num==medicaments.length) 
-			ampliar();
-		num++; medicaments[num] = p;
+	public void comprarMedicamentPindoles(Object p) {
+		if (!(p instanceof MedicamentPindoles)) throw new IllegalArgumentException();
+		
+		if(num==medicaments.length) ampliar();
+		num++; medicaments[num]=(MedicamentPindoles) p;
 
 		ordenar();
 	}
-	public void comprarMedicamentPindoles(String p, int pindoles) {
+	public void comprarMedicamentPindoles(String p, int pindoles) { // fer comprovacio aqui o a constructor MedicamentPindoles ?
+		// if(p==null || p=="") throw new IllegalArgumentException("Argument nom de medicament illegal!");
+		// if(pindoles<=0 ) throw new IllegalArgumentException("Argument numMax illegal! (ha de ser major a 0)");
+		
 		MedicamentPindoles nouMedicament = new MedicamentPindoles(p, pindoles);
 		comprarMedicamentPindoles(nouMedicament);
 	}
 	
 	public int totalPindolesQueden() {
 		int n=0;
-		for(int i=0; i<num; i++) {
-			n += medicaments[i].quantesUnitatsQueden();
-		}
+		for(int i=0; i<num; i++) n+=medicaments[i].quantesUnitatsQueden();
+		
 		return n;
 	}
 
-	public int totalPindolesPreses(String nom) {
+	public int totalPindolesPreses(String nom) throws ExceptionMedicament {
+		if (nom==""||nom==null) throw new IllegalArgumentException("Nom incorrecte!");
+		
 		for(int i=0; i<num; i++) {
 			if(medicaments[i].equals(nom)) return medicaments[i].quantesUnitatsQueden();
 		}
-		return 0;
+
+		throw new ExceptionMedicament("No s'ha torbat medicament amb el nom \""+nom+"\" ");
 	}
 
 	public int maximPindoles(){
@@ -52,8 +65,7 @@ public class Malalt {
 	public MedicamentPindoles medicamentMenys(){
 		int n=maximPindoles();
 		for(int i=0; i<num; i++) {
-			if(medicaments[i].quantesUnitatsQueden()<medicaments[n].quantesUnitatsQueden()) 
-				n=i;
+			if(medicaments[i].quantesUnitatsQueden()<medicaments[n].quantesUnitatsQueden())  n=i;
 			else if(medicaments[i].quantesUnitatsQueden()==medicaments[n].quantesUnitatsQueden()) {
 				if(medicaments[i].getNom().compareTo(medicaments[n].getNom())<0)
 					n=i;
@@ -93,8 +105,6 @@ public class Malalt {
 	}
 
 	public MedicamentPindoles[] donaMedicamentsBuits() {
-		// podria ser mes eficient?
-
 		MedicamentPindoles[] buits_tmp=new MedicamentPindoles[num]; int cnt=0;
 		for (MedicamentPindoles i : medicaments){
 			if (i==null) continue; // legal? si no ho es, negar el if i que envolti tot.
@@ -134,16 +144,16 @@ public class Malalt {
 
 		return msg;
 	}
-	public boolean equals(Malalt malaltB){
-		// si tenen la mateixa quantitat de pindoles 
+	public boolean equals(Object malaltB){
+		if (!(malaltB instanceof Malalt)) return false;
+
 		String[] llista_strMalaltA=numMedicamentsPerQueden().split("-");
-		String[] llista_strMalaltB=malaltB.numMedicamentsPerQueden().split("-");
+		String[] llista_strMalaltB=((Malalt)malaltB).numMedicamentsPerQueden().split("-");
 
 		Arrays.sort(llista_strMalaltA); Arrays.sort(llista_strMalaltB);
 
 		String strMalaltA=Arrays.toString(llista_strMalaltA); 
 		String strMalaltB=Arrays.toString(llista_strMalaltB);
-
 
 		return strMalaltA.equals(strMalaltB);
 	}
@@ -152,11 +162,10 @@ public class Malalt {
 		
 		if(o instanceof Malalt) {
 			altreMalalt = (Malalt) o;
-			if(this.totalPindolesQueden()<altreMalalt.totalPindolesQueden()) return -1;
-			else if(this.totalPindolesQueden()==altreMalalt.totalPindolesQueden()) return 0;
-			else return 1;
+			return this.totalPindolesQueden()-altreMalalt.totalPindolesQueden();
 		}
-		return -2;
+		
+		throw new ClassCastException("Tipus incorrecte!");
 	}
 
 
@@ -164,15 +173,16 @@ public class Malalt {
 	public String getNom() {return nom;}
 	public int getNum() {return num;}
 	public int getIncrement() {return increment;}
-	public MedicamentPindoles getMedicamentPindoles(int quin) {
+	public MedicamentPindoles getMedicamentPindoles(int quin) throws ExceptionMedicament {
 		if(quin < num) return medicaments[quin];
-		return null;
+		
+		throw new ExceptionMedicament("No existeix medicament amb l'index "+quin);
 	}
 	public MedicamentPindoles getMedicamentNoBuit() {
 		for(int i=0; i<num; i++) {
 			if(medicaments[i].quantesUnitatsQueden()>0) return medicaments[i];
 		}
-		return null;
+		return null; // o fer un throw new ExceptionMedicament("No existeix cap medicament amb mes de 0 medicaments");
 	}
 
 	//PRIVATEs
