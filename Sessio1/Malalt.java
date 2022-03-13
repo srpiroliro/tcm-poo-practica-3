@@ -162,7 +162,7 @@ public class Malalt {
 					pindolesMax2=pindolesPreses2+medicaments[y-1].quantesUnitatsQueden();
 				}
 
-				if (comparacio==-1 || (comparacio==0 && (pindolesMax1>pindolesMax2 || (pindolesMax1==pindolesMax2 && pindolesPreses1>pindolesPreses2)))){
+				if (comparacio<0 || (comparacio==0 && (pindolesMax1>pindolesMax2 || (pindolesMax1==pindolesMax2 && pindolesPreses1>pindolesPreses2)))){
 					medicaments[y]=medicaments[y-1]; medicaments[y-1]=aux;
 				}
 			}

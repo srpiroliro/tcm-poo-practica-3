@@ -55,7 +55,7 @@ public class Malalt {
 			if(medicaments[i].quantesUnitatsQueden()<medicaments[n].quantesUnitatsQueden()) 
 				n=i;
 			else if(medicaments[i].quantesUnitatsQueden()==medicaments[n].quantesUnitatsQueden()) {
-				if(medicaments[i].getNom().compareTo(medicaments[n].getNom())==-1)
+				if(medicaments[i].getNom().compareTo(medicaments[n].getNom())<0)
 					n=i;
 			}
 		}
@@ -182,7 +182,6 @@ public class Malalt {
 		medicaments = nousMedicaments;
 	}
 	private void ordenar() {
-		// nom (AA 1st), pindoles quan es compra(> 1st), pindoles presses (> 1st)
 		for(int x=1; x<medicaments.length; x++){
 			continue;
 		}
