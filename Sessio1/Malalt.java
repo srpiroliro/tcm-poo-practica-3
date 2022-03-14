@@ -147,7 +147,7 @@ public class Malalt {
 	}
 	private void ordenar() {
 		MedicamentPindoles aux;
-		for(int x=1; x<num; x++){
+		for(int x=0; x<num; x++){
 			for(int y=num-1; y>x; y--){
 				int comparacio=medicaments[y].getNom().compareTo(medicaments[y-1].getNom());
 				

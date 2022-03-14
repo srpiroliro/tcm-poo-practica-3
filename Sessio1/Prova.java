@@ -5,14 +5,13 @@ public class Prova {
         int increment=2;
         Malalt malalts[] = {new Malalt("Maria Fernández", 10, increment), new Malalt("Joan Moll", 15, increment)};
 
-        malalts[0].comprarMedicamentPindoles(new MedicamentPindoles("Enalapril",60));
-        malalts[0].comprarMedicamentPindoles(new MedicamentPindoles("Enalalpril",60));
-        malalts[0].comprarMedicamentPindoles(new MedicamentPindoles("Ibuprofeno",20));
+        malalts[0].comprarMedicamentPindoles(new MedicamentPindoles("A",60));
+        
 
         for (int x=0;x<2;x++) {
-            malalts[1].comprarMedicamentPindoles(new MedicamentPindoles("Auxina",30));
-            malalts[1].comprarMedicamentPindoles(new MedicamentPindoles("Auxina",35));
-            malalts[1].comprarMedicamentPindoles(new MedicamentPindoles("Ibuprofeno",20));
+            malalts[1].comprarMedicamentPindoles(new MedicamentPindoles("F",30));
+            malalts[1].comprarMedicamentPindoles(new MedicamentPindoles("D",35));
+            malalts[1].comprarMedicamentPindoles(new MedicamentPindoles("E",20));
         }
 
         

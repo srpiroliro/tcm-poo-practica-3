@@ -1,14 +1,11 @@
 package Sessio2;
-
 import java.util.Arrays;
-
 
 public class Malalt implements Comparable<Object> {
 	private String nom;
 	private MedicamentPindoles[] medicaments;
 	private int num;
 	private final int increment;
-	
 	
 	public Malalt(String nom, int numMax, int increment) {
 		if(nom==null || nom=="") 	throw new IllegalArgumentException("Argument nom illegal!");
@@ -111,20 +108,20 @@ public class Malalt implements Comparable<Object> {
 	}
 
 	public void llistatOrdenatAscendent() {
-		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
+		MedicamentPindoles[] aOrdenar=new MedicamentPindoles[num]; int cnt=0;
 		copiar(medicaments, aOrdenar, num);
-		
 		Bombolla(aOrdenar);
-		for (MedicamentPindoles i: aOrdenar) System.out.println(i);
+		for (MedicamentPindoles i: aOrdenar) {
+			cnt++; System.out.println(cnt+". "+i); 
+		}
 	}
 	public void llistatOrdenatDescendent() {
-		MedicamentPindoles[] aOrdenar = new MedicamentPindoles[num];
+		MedicamentPindoles[] aOrdenar=new MedicamentPindoles[num]; int cnt=0;
 		copiar(medicaments, aOrdenar, num);
-		
 		Arrays.sort(aOrdenar);
-		reverse(aOrdenar);
-		
-		for (MedicamentPindoles i: aOrdenar) System.out.println(i);
+		for (Object i: reverse(aOrdenar)) {
+			cnt++; System.out.println(cnt+". "+i); 
+		}
 	}
 
 	// OVERWRRIDEs
@@ -214,7 +211,7 @@ public class Malalt implements Comparable<Object> {
 			desti[i] = origen[i];
 		}
 	}
-	private Object reverse(Object[] taula) {
+	private Object[] reverse(Object[] taula) {
 		Object aux[] =new Object[taula.length];
 		for (int i=0; i<taula.length; i++) aux[i]=taula[(taula.length-1)-i];
 		return aux;
@@ -233,5 +230,4 @@ public class Malalt implements Comparable<Object> {
 
 		return msg;
 	}
-
 }
